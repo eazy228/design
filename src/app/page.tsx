@@ -9,6 +9,7 @@ import { Reserves } from "@/components/sections/reserves";
 import { Reviews } from "@/components/sections/reviews";
 import { FAQSection } from "@/components/sections/faq";
 import { Footer } from "@/components/sections/footer";
+import { LogoShowcase } from "@/components/ui/brand-logo";
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
+        <LogoShowcase />
         <RatesSection />
         <PopularCryptos />
         <SecurityAML />
