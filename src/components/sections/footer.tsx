@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { LogoLockup } from "@/components/brand/logo";
 
 const COL_SERVICE = [
   { label: "Обмен", href: "#exchange" },
@@ -31,14 +32,8 @@ export function Footer() {
       <div className="mx-auto w-full max-w-[1280px] px-5 py-12 lg:px-8 lg:py-16">
         <div className="grid gap-10 lg:grid-cols-12">
           <div className="lg:col-span-4">
-            <Link
-              href="/"
-              className="flex items-center gap-2 text-[16px] font-semibold tracking-tight"
-            >
-              <span className="flex h-7 w-7 items-center justify-center rounded-full border border-[var(--color-border-strong)] text-[10px] font-bold">
-                SC
-              </span>
-              SolidChange
+            <Link href="/" aria-label="SolidChange" className="flex items-center">
+              <LogoLockup variant="seal" size={30} />
             </Link>
             <p className="mt-4 max-w-[320px] text-[13px] leading-relaxed text-[var(--color-text-secondary)]">
               Обменник криптовалют с открытыми резервами, прозрачными

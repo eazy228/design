@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { Globe, Menu, Moon, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { LogoLockup } from "@/components/brand/logo";
 
 const NAV = [
   { href: "#exchange", label: "Обмен" },
@@ -18,14 +19,8 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-40 border-b border-[var(--color-border-subtle)] bg-[var(--color-bg)]/85 backdrop-blur-xl">
       <div className="mx-auto flex h-16 w-full max-w-[1280px] items-center justify-between px-5 lg:px-8">
-        <Link
-          href="/"
-          className="flex items-center gap-2 text-[15px] font-semibold tracking-tight"
-        >
-          <span className="flex h-7 w-7 items-center justify-center rounded-full border border-[var(--color-border-strong)] text-[10px] font-bold">
-            SC
-          </span>
-          <span>SolidChange</span>
+        <Link href="/" aria-label="SolidChange" className="flex items-center">
+          <LogoLockup variant="seal" size={28} />
         </Link>
 
         <nav className="hidden gap-1 lg:flex">
