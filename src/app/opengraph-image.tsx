@@ -29,6 +29,7 @@ export default function OGImage() {
             gap: 18,
           }}
         >
+          {/* Exchange mark — two opposing chevrons */}
           <svg
             width="56"
             height="56"
@@ -36,27 +37,33 @@ export default function OGImage() {
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <rect
-              x="1.25"
-              y="1.25"
-              width="29.5"
-              height="29.5"
-              rx="7.5"
+            <path
+              d="M6 11.5L13.5 11.5L18 7"
               stroke="#e8c9a0"
-              strokeOpacity="0.55"
-              strokeWidth="1.2"
+              strokeWidth="2.4"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
             <path
-              d="M22.5 9.5C19.5 7.5 12 7.5 9.5 12.5C7 17.5 9 22.5 14 24C18 25.2 21.5 23.5 23.5 21"
+              d="M13.5 11.5L19.5 16"
               stroke="#e8c9a0"
-              strokeWidth="2.2"
+              strokeWidth="2.4"
               strokeLinecap="round"
+              strokeLinejoin="round"
             />
             <path
-              d="M19 13.5C17 12.8 13.5 13.2 13.5 15.2C13.5 17 17 17 18.5 17.5C20 18 20 20 18 20.6C16 21.2 13 20.8 12.5 20"
+              d="M26 20.5L18.5 20.5L14 25"
               stroke="#e8c9a0"
-              strokeWidth="1.6"
+              strokeWidth="2.4"
               strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M18.5 20.5L12.5 16"
+              stroke="#e8c9a0"
+              strokeWidth="2.4"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
           </svg>
           <div

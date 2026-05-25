@@ -33,7 +33,7 @@ export function Footer() {
         <div className="grid gap-10 lg:grid-cols-12">
           <div className="lg:col-span-4">
             <Link href="/" aria-label="SolidChange" className="flex items-center">
-              <LogoLockup variant="seal" size={30} />
+              <LogoLockup variant="exchange" size={30} />
             </Link>
             <p className="mt-4 max-w-[320px] text-[13px] leading-relaxed text-[var(--color-text-secondary)]">
               Обменник криптовалют с открытыми резервами, прозрачными

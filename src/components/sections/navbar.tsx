@@ -20,7 +20,7 @@ export function Navbar() {
     <header className="sticky top-0 z-40 border-b border-[var(--color-border-subtle)] bg-[var(--color-bg)]/85 backdrop-blur-xl">
       <div className="mx-auto flex h-16 w-full max-w-[1280px] items-center justify-between px-5 lg:px-8">
         <Link href="/" aria-label="SolidChange" className="flex items-center">
-          <LogoLockup variant="seal" size={28} />
+          <LogoLockup variant="exchange" size={28} />
         </Link>
 
         <nav className="hidden gap-1 lg:flex">

@@ -21,6 +21,13 @@ import type { SVGProps } from "react";
  *   <LogoMark variant="compass" />     — Four-point compass star.
  *   <LogoMark variant="flip" />        — Bisected coin (change / flip).
  *
+ * Family crest (S + D — first/last letters of «Solid»):
+ *   <LogoMark variant="crest-shield" />    — Heater shield with SD monogram + chief.
+ *   <LogoMark variant="crest-banner" />    — Shield with ribbon banner below.
+ *   <LogoMark variant="crest-seal" />      — Round wax seal with serrated edge.
+ *   <LogoMark variant="crest-per-pale" />  — Vertically split shield, S | D.
+ *   <LogoMark variant="crest-fess" />      — Shield with horizontal SD band.
+ *
  *   <LogoWordmark />                   — Type-only "SolidChange".
  *   <LogoLockup variant="..." />       — Mark + wordmark in a single line.
  */
@@ -37,9 +44,22 @@ export type MarkVariant =
   | "arch"
   | "bracket"
   | "compass"
-  | "flip";
+  | "flip"
+  | "crest-shield"
+  | "crest-banner"
+  | "crest-seal"
+  | "crest-per-pale"
+  | "crest-fess";
 
-export const ALL_VARIANTS: MarkVariant[] = [
+export const CREST_VARIANTS: MarkVariant[] = [
+  "crest-shield",
+  "crest-banner",
+  "crest-seal",
+  "crest-per-pale",
+  "crest-fess",
+];
+
+export const ABSTRACT_VARIANTS: MarkVariant[] = [
   "seal",
   "exchange",
   "initial",
@@ -54,6 +74,11 @@ export const ALL_VARIANTS: MarkVariant[] = [
   "flip",
 ];
 
+export const ALL_VARIANTS: MarkVariant[] = [
+  ...CREST_VARIANTS,
+  ...ABSTRACT_VARIANTS,
+];
+
 type MarkProps = SVGProps<SVGSVGElement> & {
   variant?: MarkVariant;
   /** Stroke / fill color for the mark glyphs. Defaults to --color-accent. */
@@ -65,7 +90,7 @@ type MarkProps = SVGProps<SVGSVGElement> & {
 };
 
 export function LogoMark({
-  variant = "seal",
+  variant = "exchange",
   fg = "var(--color-accent)",
   bg = "transparent",
   title = "SolidChange",
@@ -95,6 +120,16 @@ export function LogoMark({
       return <CompassMark {...common} />;
     case "flip":
       return <FlipMark {...common} />;
+    case "crest-shield":
+      return <CrestShieldMark {...common} />;
+    case "crest-banner":
+      return <CrestBannerMark {...common} />;
+    case "crest-seal":
+      return <CrestSealMark {...common} />;
+    case "crest-per-pale":
+      return <CrestPerPaleMark {...common} />;
+    case "crest-fess":
+      return <CrestFessMark {...common} />;
     default:
       return <SealMark {...common} />;
   }
@@ -448,6 +483,230 @@ function FlipMark({ fg, title, ...rest }: GlyphProps) {
   );
 }
 
+/* ═════════════════ FAMILY CREST · S + D ═════════════════
+ * S — первая буква «Solid», D — последняя.
+ * Геральдическая семантика: щит, лента, печать.
+ * Все знаки используют один и тот же набор «SD»-монограмм,
+ * нарисованных как path'ы (а не <text>) — чтобы выглядели
+ * одинаково в любом контексте (включая OG-картинку).
+ */
+
+/** SD-монограмма как path (serif-вдохновлённая форма, ~10×10 px around centre). */
+function SDMonogram({
+  fg,
+  cx = 16,
+  cy = 16,
+  scale = 1,
+}: {
+  fg: string;
+  cx?: number;
+  cy?: number;
+  scale?: number;
+}) {
+  // Two glyphs drawn relative to a 16×16 viewBox of the inner area,
+  // then transformed to the desired centre.
+  return (
+    <g transform={`translate(${cx} ${cy}) scale(${scale}) translate(-16 -16)`}>
+      {/* S — left half */}
+      <path
+        d="M15.8 12.4C14.4 11.4 12.2 11.1 10.6 11.8C9.0 12.5 9.0 14.0 10.4 14.6C11.8 15.2 14.0 15.2 15.0 16.2C16.0 17.2 15.4 18.8 13.4 19.4C11.6 19.9 9.6 19.5 8.6 18.6"
+        stroke={fg}
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        fill="none"
+      />
+      {/* D — right half */}
+      <path
+        d="M17.5 11.5L17.5 20.5L21.2 20.5C23.6 20.5 25 19 25 16C25 13 23.6 11.5 21.2 11.5Z"
+        stroke={fg}
+        strokeWidth="1.8"
+        strokeLinejoin="round"
+        fill="none"
+      />
+    </g>
+  );
+}
+
+/* ───────── 13 · Crest · Shield ─────────
+ * Классический heater-щит с SD-монограммой и тонкой полосой-«главой» (chief)
+ * сверху, увенчанной тремя точками (heraldic stars upgrade).
+ */
+function CrestShieldMark({ fg, title, ...rest }: GlyphProps) {
+  return (
+    <Svg title={title} {...rest}>
+      {/* shield outline */}
+      <path
+        d="M5 4L27 4L27 16C27 22.5 22 27 16 29C10 27 5 22.5 5 16Z"
+        stroke={fg}
+        strokeWidth="1.4"
+        strokeLinejoin="round"
+        fill="none"
+      />
+      {/* chief band */}
+      <path
+        d="M5 4L27 4L27 8.5L5 8.5Z"
+        fill={fg}
+        opacity="0.18"
+      />
+      <path
+        d="M5 8.5L27 8.5"
+        stroke={fg}
+        strokeOpacity="0.5"
+        strokeWidth="0.6"
+      />
+      {/* three small stars in chief */}
+      <circle cx="11" cy="6.25" r="0.7" fill={fg} />
+      <circle cx="16" cy="6.25" r="0.7" fill={fg} />
+      <circle cx="21" cy="6.25" r="0.7" fill={fg} />
+      {/* SD monogram */}
+      <SDMonogram fg={fg} cx={16} cy={18.5} scale={0.9} />
+    </Svg>
+  );
+}
+
+/* ───────── 14 · Crest · Banner ─────────
+ * Щит поменьше + развёрнутая лента-баннер снизу (под девиз / EST 2025).
+ */
+function CrestBannerMark({ fg, title, ...rest }: GlyphProps) {
+  return (
+    <Svg title={title} {...rest}>
+      {/* shield (compact) */}
+      <path
+        d="M7 3L25 3L25 13C25 18 21 21 16 22.5C11 21 7 18 7 13Z"
+        stroke={fg}
+        strokeWidth="1.4"
+        strokeLinejoin="round"
+        fill="none"
+      />
+      <SDMonogram fg={fg} cx={16} cy={12.5} scale={0.75} />
+      {/* ribbon banner — two folded ends + center plaque */}
+      <path
+        d="M3 25L9 23L23 23L29 25L23 28L23 26.5L9 26.5L9 28Z"
+        fill={fg}
+        opacity="0.85"
+      />
+      <path
+        d="M9 23L9 26.5L23 26.5L23 23"
+        stroke="var(--color-bg)"
+        strokeOpacity="0.35"
+        strokeWidth="0.6"
+        fill="none"
+      />
+    </Svg>
+  );
+}
+
+/* ───────── 15 · Crest · Wax Seal ─────────
+ * Круглая восковая печать со скруглёнными «зубцами» по краю и SD внутри.
+ */
+function CrestSealMark({ fg, title, ...rest }: GlyphProps) {
+  // 16 zigzag teeth around the perimeter
+  const teeth = 16;
+  const ROut = 13.5;
+  const RIn = 11.8;
+  const pts: string[] = [];
+  for (let i = 0; i < teeth * 2; i++) {
+    const r = i % 2 === 0 ? ROut : RIn;
+    const a = (i * Math.PI) / teeth;
+    const x = 16 + r * Math.cos(a - Math.PI / 2);
+    const y = 16 + r * Math.sin(a - Math.PI / 2);
+    pts.push(`${x.toFixed(2)} ${y.toFixed(2)}`);
+  }
+  return (
+    <Svg title={title} {...rest}>
+      <path
+        d={`M${pts.join("L")}Z`}
+        stroke={fg}
+        strokeOpacity="0.55"
+        strokeWidth="1"
+        strokeLinejoin="round"
+        fill="none"
+      />
+      <circle cx="16" cy="16" r="9.5" stroke={fg} strokeWidth="1.4" fill="none" />
+      <SDMonogram fg={fg} cx={16} cy={16} scale={0.85} />
+    </Svg>
+  );
+}
+
+/* ───────── 16 · Crest · Per Pale ─────────
+ * Вертикально-разделённый щит: левая половина залита champagne,
+ * правая — outline. S слева, D справа.
+ */
+function CrestPerPaleMark({ fg, title, ...rest }: GlyphProps) {
+  const shieldPath =
+    "M5 4L27 4L27 16C27 22.5 22 27 16 29C10 27 5 22.5 5 16Z";
+  return (
+    <Svg title={title} {...rest}>
+      <defs>
+        <clipPath id="crest-per-pale-clip">
+          <path d={shieldPath} />
+        </clipPath>
+      </defs>
+      <g clipPath="url(#crest-per-pale-clip)">
+        <rect x="0" y="0" width="16" height="32" fill={fg} opacity="0.95" />
+      </g>
+      <path
+        d={shieldPath}
+        stroke={fg}
+        strokeWidth="1.4"
+        strokeLinejoin="round"
+        fill="none"
+      />
+      {/* center divider */}
+      <path
+        d="M16 4L16 27.5"
+        stroke="var(--color-bg)"
+        strokeOpacity="0.6"
+        strokeWidth="0.8"
+      />
+      {/* S on left half (knocked out from champagne) */}
+      <path
+        d="M14.2 11.2C12.9 10.4 10.9 10.2 9.4 10.8C8.0 11.4 8.0 12.8 9.3 13.4C10.6 14.0 12.6 14.0 13.5 14.9C14.4 15.8 13.8 17.3 11.9 17.8C10.3 18.3 8.4 17.9 7.5 17.1"
+        stroke="var(--color-bg)"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        fill="none"
+      />
+      {/* D on right half (champagne stroke) */}
+      <path
+        d="M19 11L19 19L22.4 19C24.6 19 26 17.6 26 14.9C26 12.2 24.6 11 22.4 11Z"
+        stroke={fg}
+        strokeWidth="1.7"
+        strokeLinejoin="round"
+        fill="none"
+      />
+    </Svg>
+  );
+}
+
+/* ───────── 17 · Crest · Fess ─────────
+ * Щит с горизонтальной полосой (fess) — на ней SD-монограмма.
+ */
+function CrestFessMark({ fg, title, ...rest }: GlyphProps) {
+  const shieldPath =
+    "M5 4L27 4L27 16C27 22.5 22 27 16 29C10 27 5 22.5 5 16Z";
+  return (
+    <Svg title={title} {...rest}>
+      <defs>
+        <clipPath id="crest-fess-clip">
+          <path d={shieldPath} />
+        </clipPath>
+      </defs>
+      <g clipPath="url(#crest-fess-clip)">
+        <rect x="3" y="13" width="26" height="7" fill={fg} opacity="0.95" />
+      </g>
+      <path
+        d={shieldPath}
+        stroke={fg}
+        strokeWidth="1.4"
+        strokeLinejoin="round"
+        fill="none"
+      />
+      <SDMonogram fg="var(--color-bg)" cx={16} cy={16.5} scale={0.6} />
+    </Svg>
+  );
+}
+
 /* ───────── Wordmark ─────────
  * Type-only "SolidChange" with optional champagne accent on the second half.
  */
@@ -489,7 +748,7 @@ type LockupProps = {
 };
 
 export function LogoLockup({
-  variant = "seal",
+  variant = "exchange",
   size = 28,
   highlight = true,
   className,
